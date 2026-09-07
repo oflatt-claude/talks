@@ -2486,6 +2486,14 @@ fun slide_39():
 
   staged(base_canvas, [stage_1])
 
+// The logical number in the corner, the one `--skip` counts by. Keynote's own
+// "Slide Number" fields came through empty, so this is the only number drawn.
+//
+// Out here rather than inside `module main`: the number is composed onto each
+// slide now, so `raco glide` draws it into the exported deck as well -- and
+// `module main` is not run on the way to a deck.
+set_slide_numbers(#true)
+
 def all_slides:
   [slide_1,
    // 1 -- why effects belong in an e-graph at all
@@ -2517,9 +2525,6 @@ module main:
   // `all_slides`. A slide's final epoch plays as the transition *off* it, so
   // without the hold whatever that epoch adds is never seen at rest.
   import: lib("glide-pptx/show.rhm") open
-  // The logical number in the corner, the one `--skip` counts by. Keynote's own
-  // "Slide Number" fields came through empty, so this is the only number drawn.
-  set_slide_numbers(#true)
   show_slides(all_slides, ~width: slide_width, ~height: slide_height)
 
 // The backup PDF, without opening a window:
